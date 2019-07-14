@@ -1,0 +1,15 @@
+version: '3.5'  
+
+services: 
+    backend: 
+      build:
+        context: ./backend
+      ports: 
+        - 8000:8000
+      container_name: server
+    frontend: 
+      build:
+        context: ./frontend
+      ports: 
+        - 5000:5000
+      container_name: client

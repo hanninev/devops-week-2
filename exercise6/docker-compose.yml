@@ -1,0 +1,32 @@
+version: '3.5'  
+
+services: 
+    redis: 
+      image: bitnami/redis:latest
+      environment:
+        - ALLOW_EMPTY_PASSWORD=yes
+      container_name: redis
+    backend: 
+      build:
+        context: ./backend
+      ports: 
+        - 8000:8000
+      container_name: server
+      environment:
+        - REDIS=redis
+        - DB_USERNAME=secret
+        - DB_PASSWORD=secret
+        - DB_HOST=db
+    frontend: 
+      build:
+        context: ./frontend
+      ports: 
+        - 5000:5000
+      container_name: client
+    db:
+      image: postgres
+      restart: unless-stopped
+      environment:
+        POSTGRES_USER: secret
+        POSTGRES_PASSWORD: secret
+      container_name: db
